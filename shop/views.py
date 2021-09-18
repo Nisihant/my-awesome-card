@@ -5,20 +5,18 @@ from .models import product,category
 from math import ceil
 # Create your views here.
 def index(request):
-    pd=product.objects.all()
-    cat=category.objects.all()
-    # print(len(cat))
-    all_cat_product=product.objects.raw('select * from products group by category')[0]
-    print(all_cat_product)
-    # all_cat_product=[]
-    for i in cat:
-        cat_product=product.objects.filter(category=cat)
-        # all_cat_product[i]=cat_product
-        all_cat_product.append([i,cat_product])
-    # for i in all_cat_product:
-    #     print(i)   
-    params={'category':cat,'all_product':all_cat_product}
-    return render(request,'shop/home.html')
+    context = {}
+    prod_by_category = {}
+    for i in product.objects.all():
+        try:
+            prod_by_category[i.category.category_name].append(i)
+        except:
+            prod_by_category[i.category.category_name] = []
+            prod_by_category[i.category.category_name].append(i)
+            
+    context["products"] = prod_by_category
+    print(context)
+    return render(request, "shop/home.html", context)
 def about(request):
     return HttpResponse("We are at about")
 def contact(request):
