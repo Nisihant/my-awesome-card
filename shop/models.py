@@ -12,7 +12,7 @@ class category(models.Model):
 
 
 class product(models.Model):
-    product_id=models.AutoField
+    product_id=models.AutoField(primary_key=True)
     product_name=models.CharField(max_length=200,default="")
     category=models.ForeignKey(category,default="",verbose_name='catogories',on_delete=models.SET_DEFAULT)
     sub_category=models.CharField(max_length=200,default="")

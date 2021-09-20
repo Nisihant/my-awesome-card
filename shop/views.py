@@ -15,17 +15,26 @@ def index(request):
             prod_by_category[i.category.category_name].append(i)
             
     context["products"] = prod_by_category
-    print(context)
     return render(request, "shop/home.html", context)
+
 def about(request):
     return HttpResponse("We are at about")
+
 def contact(request):
     return HttpResponse("We are at contact")
+
 def tracker(request):
     return HttpResponse("We are at tracker")
+
 def search(request):
     return HttpResponse("We are at search")
+
 def productView(request):
-    return HttpResponse("We are at product view")
+    p=request.POST.get("product_id")
+    # p=int(p)
+    prod=product.objects.get(product_id=p)
+    print(prod)
+    return  render(request, "shop/shop_product_detail.html",{"prod":prod})
+
 def checkout(request):
     return HttpResponse("We are at checkout")
